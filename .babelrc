@@ -1,0 +1,11 @@
+{
+  "presets" : ["es2015", "stage-0"],
+  "plugins": [
+    ["babel-plugin-root-import", 
+    	[{
+	      "rootPathPrefix": "~", // `~` is the default so you can remove this if you want
+	      "rootPathSuffix": "src"
+	    }]
+    ]
+  ]
+}
