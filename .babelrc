@@ -5,6 +5,10 @@
     	[{
 	      "rootPathPrefix": "~", // `~` is the default so you can remove this if you want
 	      "rootPathSuffix": "src"
+	    },
+	    {
+	      "rootPathPrefix": "@",
+	      "rootPathSuffix": "src/data"
 	    }]
     ]
   ]
