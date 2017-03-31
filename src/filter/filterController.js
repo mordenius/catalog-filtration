@@ -1,4 +1,4 @@
-import FilterPresetCollector from './filterPresetCollector';
+import FilterPresetCollector from '~/listing/filterPresetCollector';
 import FilterAccept from './filterAccept';
 
 class FilterController {

@@ -1,4 +1,4 @@
-import ProductListing from '~/catalog/productListing';
+import ProductListing from './productListing';
 
 class FilterListCollector extends ProductListing {
 	constructor(options){
