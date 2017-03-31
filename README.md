@@ -1,4 +1,10 @@
 # Catalog-filtration
+[![npm version](https://img.shields.io/npm/v/catalog-filtration.svg)](https://www.npmjs.com/package/catalog-filtration)
+[![node](https://img.shields.io/node/v/gh-badges.svg)](https://github.com/mordenius/catalog-filtration)
+[![build status](https://travis-ci.org/mordenius/catalog-filtration.svg?branch=master)](https://travis-ci.org/mordenius/catalog-filtration)
+[![dependencies Status](https://david-dm.org/mordenius/catalog-filtration/status.svg)](https://david-dm.org/mordenius/catalog-filtration)
+[![devDependencies Status](https://david-dm.org/mordenius/catalog-filtration/dev-status.svg)](https://david-dm.org/javiercf/catalog-filtration?type=dev)
+---
 ## Оглавление
 1. [Применение](#description)
 2. [Установка](#installation)
@@ -137,7 +143,7 @@ catalog.filter({'FILTER_FIELD': ['filterItem', 'filterItem']})
 
 #### Ограничение
 Фильтры, не указанные при
-[подключении](#constructor-options),
+[подключении](#import),
 будут проигнорированы.
 
 ### <a name="reset-filters"></a>Сброс фильтров
