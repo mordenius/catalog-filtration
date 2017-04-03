@@ -5,27 +5,28 @@
 [![dependencies Status](https://david-dm.org/mordenius/catalog-filtration/status.svg)](https://david-dm.org/mordenius/catalog-filtration)
 [![devDependencies Status](https://david-dm.org/mordenius/catalog-filtration/dev-status.svg)](https://david-dm.org/javiercf/catalog-filtration?type=dev)
 ---
-## Table of Contents
-1. [Description](#description)
-2. [Installation](#installation)
-3. [Import](#import)
-4. [Usage](#usage)
-5. [How it work](#how-it-work)
-6. [Constructor options](#constructor-options)
-7. [Interface](#interface)
-    1. [Filtering](#filtering)
-    2. [Reset filters](#reset-filters)
+## Оглавление
+1. [Применение](#description)
+2. [Установка](#installation)
+3. [Подключение](#import)
+4. [Использование](#usage)
+5. [Принцип работы](#how-it-work)
+6. [Опции запуска](#constructor-options)
+7. [Интерфейс](#interface)
+    1. [Фильтрация](#filtering)
+    2. [Сброс фильтров](#reset-filters)
 
 ---
 
-#### <a name="description"></a>Description
-It filters the objects of the associative array of data, by providing a filtering control interface.
-#### <a name="installation"></a>Installation
+#### <a name="description"></a>Применение
+Осуществляет фильтрацию объектов ассоциативного массива данных, посредством предоставления интерфейса управления фильтрацией.
+
+#### <a name="installation"></a>Установка
 ```
 npm i catalog-filtration
 ```
 
-#### <a name="import"></a>Import
+#### <a name="import"></a>Подключение
 ```javascript
 import Catalog from 'catalog-filtration';
 import Goods from './goods.json';
@@ -39,7 +40,7 @@ let options = {
 let catalog = new Catalog(options);
 ```
 
-#### <a name="usage"></a>Usage
+#### <a name="usage"></a>Использование
 ```javascript
  catalog.filter({'FILTER_FIELD': ['filterItem', 'filterItem']})
     .then(getStores)
@@ -50,13 +51,12 @@ let catalog = new Catalog(options);
  }
 ```
 
-## <a name="how-it-works"></a>How it works
-[See wiki](https://github.com/mordenius/catalog-filtration/wiki)
+## <a name="how-it-works"></a>Принцип работы
 
-### <a name="constructor-options"></a>Constructor options
-goods – Object/Array - An array of data for filtering.
 
-Example 1:
+### <a name="constructor-options"></a>Опции запуска
+goods – Object/Array - Массив данных для фильтрации. 
+Пример 1:
 ```javascript
 { 
     23523535: {
@@ -73,7 +73,7 @@ Example 1:
     }
 }
 ```
-Example 2:
+Пример 2:
 ```javascript
 [{
     key: 23523535,
@@ -90,11 +90,12 @@ Example 2:
     price: 424,50
 }]
 ```
-filterFields – Array - List of fields involved in filtering.
+filterFields – Array - Список полей, участвующих в фильтрации. 
 
-priceField – String - Price field name.
+priceField – String - Название поля цены.
 
-## <a name="interface"></a>Interface
+
+## <a name="interface"></a>Интерфейс
 ```javascript
  import Catalog from 'catalog-filtration';
 
@@ -102,17 +103,17 @@ priceField – String - Price field name.
  let catalog = new Catalog(options);
 ```
 
-### <a name="filtering"></a>Filtering
-To filter, use the:
+### <a name="filtering"></a>Фильтрация
+Для фильтрации используется метод
 ```javascript
 filter(Object)
 ```
 
-As an argument to the method, an array is used, from the selected filters.
+В качестве аргумента метода используется массив, из выбранных фильтров.
 ```javascript
 catalog.filter({'FILTER_FIELD': ['filterItem', 'filterItem']})
 ```
-Or
+Или
 ```javascript
 let selected = {
     'FILTER_FIELD': 
@@ -120,7 +121,7 @@ let selected = {
     }
 catalog.filter(selected)
 ```
-In response to a query, filtering results can be obtained
+В ответ на запрос могут быть получены результаты фильтрации
 ```javascript
 catalog.filter({'FILTER_FIELD': ['filterItem', 'filterItem']})
     .then((stores) => ){
@@ -129,7 +130,7 @@ catalog.filter({'FILTER_FIELD': ['filterItem', 'filterItem']})
     })
 ```
 
-Or
+Или
 ```javascript
  catalog.filter({'FILTER_FIELD': ['filterItem', 'filterItem']})
     .then(getStores)
@@ -140,13 +141,13 @@ Or
  }
 ```
 
-#### Limitation
-Filters, not specified when
-[Import](#import),
-Will be ignored.
+#### Ограничение
+Фильтры, не указанные при
+[подключении](#import),
+будут проигнорированы.
 
-### <a name="reset-filters"></a>Reset filters
-To reset the filters, use the non-argument filter method call.
+### <a name="reset-filters"></a>Сброс фильтров
+Для сброса фильтров используется вызов метода фильтрации без аргументов.
 ```javascript
 filter()
 ```
