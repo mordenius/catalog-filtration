@@ -16,13 +16,13 @@ let catalog = new Catalog(options);
 
 console.time('FILTER_INIT');
 
-let selected = {
-	BRAND: ['Timberland'],
-	SEASON_UA: ['Осінь-Зима 2016', 'Осінь-Зима 2015'],
-	GENDER_UA: ["Жіноче"],
-	TODAY: []
-}
-// let selected = 'female';
+// let selected = {
+// 	BRAND: ['Timberland'],
+// 	SEASON_UA: ['Осінь-Зима 2016', 'Осінь-Зима 2015'],
+// 	GENDER_UA: ["Жіноче"],
+// 	TODAY: []
+// }
+let selected = 'female';
 catalog.filter(selected)
 	.then(getStores)
 	.then(() => console.timeEnd('FILTER_INIT'))
