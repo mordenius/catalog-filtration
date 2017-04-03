@@ -1,6 +1,6 @@
 import AvailableFiltersStore from '~/stores/availableFiltersStore';
 import ProductListStore from '~/stores/productListStore';
-import FilterMapStore from '~/stores/FilterMapStore';
+import FilterMapStore from '~/stores/filterMapStore';
 
 let StoreList = [
 	{
