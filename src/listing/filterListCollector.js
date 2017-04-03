@@ -8,6 +8,12 @@ class FilterListCollector extends ProductListing {
 		this.filterList = {};
 	}
 
+	listing(){
+		this.filterList = {};
+		this.filterList[this.priceField] = [10000, 0];
+		super.listing();
+	}
+
 	isFilteredField(prop){
 		return this.filterFields.includes(prop);
 	}
@@ -35,6 +41,7 @@ class FilterListCollector extends ProductListing {
 	}
 
 	checkPriceField(options){
+		options.value = parseInt(options.value);
 		if(this.filterList[this.priceField][0] > options.value) this.filterList[this.priceField][0] = options.value;
 		if(this.filterList[this.priceField][1] < options.value) this.filterList[this.priceField][1] = options.value;
 	}

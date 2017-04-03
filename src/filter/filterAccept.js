@@ -22,6 +22,7 @@ class FilterAccept {
 		}
 		
 		console.timeEnd('FILTER');
+		this.stores.productList.setProductList(this.filteredProducts);
 		console.log(this.filteredProducts.length)
 	}
 

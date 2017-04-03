@@ -10,6 +10,10 @@ class ProductListing {
 		}
 	}
 
+	newGoods(newGoods){
+		this.goods = newGoods;
+	}
+
 	productParse(options){
 		for(let prop in options.product){
 			let value = options.product[prop];

@@ -17,8 +17,9 @@ let catalog = new Catalog(options);
 console.time('FILTER_INIT');
 
 let selected = {
-	BRAND: ['Attipas', 'Braska'],
+	BRAND: ['Timberland'],
 	SEASON_UA: ['Осінь-Зима 2016', 'Осінь-Зима 2015'],
+	GENDER_UA: ["Жіноче"],
 	TODAY: []
 }
 // let selected = 'female';
@@ -28,6 +29,6 @@ catalog.filter(selected)
 
 
 function getStores(stores){
-	// console.log(stores.availableFilters);
+	console.log(stores.availableFilters.PRICE_ACTION);
 	// console.log(stores.filterMap.TECHNOLOGY);
 }
