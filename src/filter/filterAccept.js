@@ -27,8 +27,7 @@ class FilterAccept {
 	}
 
 	filterString(selectedFilters){
-		console.log(selectedFilters);
-		// this.products = this.stores.
+		this.filteredProducts = this.stores.filterMap.getStore.presets[selectedFilters];
 	}
 
 	filterObject(selectedFilters){
@@ -51,13 +50,13 @@ class FilterAccept {
 	}
 
 	checkItem(field, item){
-		let check = this.stores.filterMap.getStore[field][item];
+		let check = this.stores.filterMap.getStore.map[field][item];
 		return ('undefined' == typeof check) ? false : true;
 	}
 
 	getProducts(field, item){
 		if('undefined' == typeof this.products[field]) this.products[field] = [];
-		this.products[field] = [...this.stores.filterMap.getStore[field][item].products];
+		this.products[field] = [...this.stores.filterMap.getStore.map[field][item].products];
 	}
 
 	sortProductsLists(){

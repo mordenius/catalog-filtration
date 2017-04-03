@@ -2,12 +2,13 @@ import {StoreClass} from 'redux-store-controller';
 
 class FilterMapStore extends StoreClass {
 	constructor(){
-		super({})
+		super({map: null, presets: null})
 	}
 
 	update(state, action){
 		switch(action.type){
-			case 'UPDATE': state = action.map; break;
+			case 'MAP': state.map = action.map; break;
+			case 'PRESETS': state.presets = action.presets; break;
 			default: return state;
 		}
 
@@ -15,7 +16,11 @@ class FilterMapStore extends StoreClass {
 	}
 
 	setFilterMap(map){
-		this._store.dispatch({type: 'UPDATE', map: map})
+		this._store.dispatch({type: 'MAP', map: map})
+	}
+
+	setFilterPresets(presets){
+		this._store.dispatch({type: 'PRESETS', presets: presets})
 	}
 }
 

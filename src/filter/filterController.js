@@ -20,6 +20,7 @@ class FilterController {
 	setStores(){
 		this.stores.availableFilters.setFilterList(this.filterPresetCollector.filterList);
 		this.stores.filterMap.setFilterMap(this.filterPresetCollector.filterMap);
+		this.stores.filterMap.setFilterPresets(this.filterPresetCollector.presetProducts);
 	}
 
 	filter(selectedFilters){
