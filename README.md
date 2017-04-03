@@ -1,4 +1,10 @@
 # Catalog-filtration
+
+---
+
+## *IN DEV: Unstable*
+
+---
 [![npm version](https://img.shields.io/npm/v/catalog-filtration.svg)](https://www.npmjs.com/package/catalog-filtration)
 [![node](https://img.shields.io/node/v/gh-badges.svg)](https://github.com/mordenius/catalog-filtration)
 [![build status](https://travis-ci.org/mordenius/catalog-filtration.svg?branch=master)](https://travis-ci.org/mordenius/catalog-filtration)
@@ -20,6 +26,7 @@
 
 #### <a name="description"></a>Description
 It filters the objects of the associative array of data, by providing a filtering control interface.
+
 #### <a name="installation"></a>Installation
 ```
 npm i catalog-filtration
