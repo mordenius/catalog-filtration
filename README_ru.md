@@ -1,4 +1,4 @@
-# Catalog-filtration
+# Catalog-filtration (Ру/[En](https://github.com/mordenius/catalog-filtration/blob/master/README.md))
 [![npm version](https://img.shields.io/npm/v/catalog-filtration.svg)](https://www.npmjs.com/package/catalog-filtration)
 [![node](https://img.shields.io/node/v/gh-badges.svg)](https://github.com/mordenius/catalog-filtration)
 [![build status](https://travis-ci.org/mordenius/catalog-filtration.svg?branch=master)](https://travis-ci.org/mordenius/catalog-filtration)
@@ -12,6 +12,7 @@
 4. [Использование](#usage)
 5. [Принцип работы](#how-it-work)
 6. [Опции запуска](#constructor-options)
+7. [Предустановленные наборы фильтров](#presets)
 7. [Интерфейс](#interface)
     1. [Фильтрация](#filtering)
     2. [Сброс фильтров](#reset-filters)
@@ -42,7 +43,7 @@ let catalog = new Catalog(options);
 
 #### <a name="usage"></a>Использование
 ```javascript
- catalog.filter({'FILTER_FIELD': ['filterItem', 'filterItem']})
+ catalog.filter('append', {'FILTER_FIELD': ['filterItem', 'filterItem']})
     .then(getStores)
 
  function getStores(stores){
@@ -94,6 +95,25 @@ filterFields – Array - Список полей, участвующих в фи
 
 priceField – String - Название поля цены.
 
+presetRules - Object - [Смотри следующий](#presets) раздел.
+
+## <a name="presets"></a>Предустановленные наборы фильтров
+Для более быстрой фильтрации, вы можете использовать предустановленные наборы фильтров.
+Добавьте поле presetRules в опции запуска модуля:
+
+```javascript
+    presetsRules: {
+        'female': {"GENDER": ["Female"], "ACCESSORY": ["N"]},
+        'male': {"GENDER": ["Male"], "ACCESSORY": ["N"]} 
+    }
+```
+
+Теперь вы сможете вызывать предустановленные наборы фильтров в любое время:
+
+
+```javascript
+filter('preset', 'female')
+```
 
 ## <a name="interface"></a>Интерфейс
 ```javascript
@@ -106,24 +126,33 @@ priceField – String - Название поля цены.
 ### <a name="filtering"></a>Фильтрация
 Для фильтрации используется метод
 ```javascript
-filter(Object)
+filter(String: type, Object: selectedFiltes)
 ```
 
-В качестве аргумента метода используется массив, из выбранных фильтров.
+- type - String - способ фильтрации:
+    - ```null``` or ```'all'``` - простая фильтрация фильтров;
+    - ```'append'``` - добавление новых фильтров к уже примененным;
+    - ```'detach'``` - отмена фильтров из уже примененным;
+    - ```'preset'``` - для выбора предустановленного набора фильтров; 
+    - ```'reset'``` - сброс. *предустановленный набор останется активным*;
+- selectedFilters - Object - Список фильтров по категориям.
+
+
 ```javascript
-catalog.filter({'FILTER_FIELD': ['filterItem', 'filterItem']})
+catalog.filter(null, {'FILTER_FIELD': ['filterItem', 'filterItem']})
 ```
+
 Или
 ```javascript
 let selected = {
     'FILTER_FIELD': 
         ['filterItem', 'filterItem']
     }
-catalog.filter(selected)
+catalog.filter('append', selected)
 ```
 В ответ на запрос могут быть получены результаты фильтрации
 ```javascript
-catalog.filter({'FILTER_FIELD': ['filterItem', 'filterItem']})
+catalog.filter('detach', {'FILTER_FIELD': ['filterItem', 'filterItem']})
     .then((stores) => ){
         console.log(stores.productList); // List of filtered products
         console.log(stores.availableFilters); // List of available filters for filtered products
@@ -132,7 +161,7 @@ catalog.filter({'FILTER_FIELD': ['filterItem', 'filterItem']})
 
 Или
 ```javascript
- catalog.filter({'FILTER_FIELD': ['filterItem', 'filterItem']})
+ catalog.filter('detach', {'FILTER_FIELD': ['filterItem', 'filterItem']})
     .then(getStores)
 
  function getStores(stores){
@@ -147,8 +176,11 @@ catalog.filter({'FILTER_FIELD': ['filterItem', 'filterItem']})
 будут проигнорированы.
 
 ### <a name="reset-filters"></a>Сброс фильтров
-Для сброса фильтров используется вызов метода фильтрации без аргументов.
+Для сброса фильтров до выбранного предустановленного набора:
 ```javascript
-filter()
+filter('reset')
 ```
-
+для полного сброса:
+```javascript
+reset()
+```
