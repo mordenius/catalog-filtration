@@ -23,13 +23,38 @@ class FilterController {
 		this.stores.filterMap.setFilterPresets(this.filterPresetCollector.presetProducts);
 	}
 
-	filter(selectedFilters){
-		this.filterAccept.filter(selectedFilters);
+	filter(type, selectedFilters = {}){
+		switch(type){
+			case 'append':
+			case 'detach':
+				this.filterAccept.change(type, selectedFilters); break;
+			case 'reset':
+				this.resetPreset(); break;
+			case 'preset':
+			case null: 
+			case 'all': 
+			default:
+				this.filterAccept.filter(selectedFilters); break;
+		}
 		this.available();		
 	}
 
 	available(){
 		console.time('AVAILABLE')
+
+		let preset = this.stores.catalog.getStore.preset;
+		if(null == preset || 0 < Object.keys(this.stores.selectedFilters.getStore).length) this.availableCommon();
+		else this.availablePreset(preset);
+		
+		console.timeEnd('AVAILABLE')
+	}
+
+	availablePreset(preset){
+		let available = this.stores.filterMap.getStore.presets[preset].available;
+		this.stores.availableFilters.setFilterList(available);
+	}
+
+	availableCommon(){
 		let goods = this.stores.productList.getStore.map((el) => {
 			return this.goods[el];
 		})
@@ -38,11 +63,21 @@ class FilterController {
 		this.filterListCollector.listing();
 
 		this.stores.availableFilters.setFilterList(this.filterListCollector.filterList);
-		console.timeEnd('AVAILABLE')
+	}
+
+	resetPreset(){
+		let curPreset = this.stores.catalog.getStore.preset;
+		if(null != curPreset) this.filterAccept.filter(curPreset);
+		else {
+			let products = Object.keys(this.goods);
+			this.stores.productList.setProductList(products);
+		}
 	}
 
 	reset(){
-
+		let products = Object.keys(this.goods);
+		this.stores.productList.setProductList(products);
+		this.available();
 	}
 
 }

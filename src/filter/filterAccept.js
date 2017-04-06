@@ -1,93 +1,62 @@
+import FilterAcceptCollector from '~/listing/filterAcceptCollector';
+
 class FilterAccept {
 	constructor(options){
 		this.stores = options.stores;
-		this.filterFields = options.filterFields;
-		this.priceField = options.priceField;
+		this.filterAcceptCollector = new FilterAcceptCollector(options);
+		this.selectedFilters = {};
 
-		this.products = {};
+		this.subscribe();
+	}
 
-		this.filteredProducts = [];
+	subscribe(){
+		this.stores.selectedFilters.subscribe(() => {
+			this.selectedFilters = this.stores.selectedFilters.getStore;
+		})
 	}
 
 	filter(selectedFilters){
 		console.time('FILTER');
 
-		this.products = [];
-		this.filteredProducts = [];
-
 		switch(typeof selectedFilters){
-			case 'string': this.filterString(selectedFilters); break;
-			case 'object': this.filterObject(selectedFilters); break;
+			case 'string': this.stores.catalog.preset(selectedFilters); break;
+			case 'object': this.apply(selectedFilters); break;
 			default: break;
 		}
 		
 		console.timeEnd('FILTER');
-		this.stores.productList.setProductList(this.filteredProducts);
-		console.log(this.filteredProducts.length)
 	}
 
-	filterString(selectedFilters){
-		this.filteredProducts = this.stores.filterMap.getStore.presets[selectedFilters];
-	}
-
-	filterObject(selectedFilters){
-		for(let field in selectedFilters){
-			if(false == this.checkField(field)) continue;
-			this.parseField(field, selectedFilters[field]);
+	change(type, filters){
+		switch(type){
+			case 'append': this.append(filters); break;
+			case 'detach': this.detach(filters); break;
+			default: break;
 		}
-		this.parseProductsLists();
+
+		this.apply();
 	}
 
-	checkField(field){
-		return (this.filterFields.includes(field));
-	}
-
-	parseField(field, items){
-		for(let key in items){
-			if(false == this.checkItem(field, items[key])) continue;
-			this.getProducts(field, items[key]);
+	append(newFilters){
+		for(let n in newFilters){
+			if(Object.keys(this.selectedFilters).includes(n)) this.selectedFilters[n] = [...new Set([...this.selectedFilters[n], ...newFilters[n]])];
+			else this.selectedFilters[n] = newFilters[n];
 		}
 	}
 
-	checkItem(field, item){
-		let check = this.stores.filterMap.getStore.map[field][item];
-		return ('undefined' == typeof check) ? false : true;
-	}
-
-	getProducts(field, item){
-		if('undefined' == typeof this.products[field]) this.products[field] = [];
-		this.products[field] = [...this.stores.filterMap.getStore.map[field][item].products];
-	}
-
-	sortProductsLists(){
-		Object.keys(this.products).sort((a, b) => (
-			(this.products[a].length > this.products[b].length) ? 1 : -1
-		))
-	}
-
-	parseProductsLists(){
-		this.sortProductsLists();
-		let first = null;
-
-		for(let field in Object.keys(this.products)){
-			if(null == first) first = Object.keys(this.products)[field];
-			console.log(this.products[Object.keys(this.products)[field]].length)
-		}
-
-		for(let product in this.products[first]){
-			this.checkProduct(first, this.products[first][product])
+	detach(removeFilters){
+		for(let n in removeFilters){
+			if(false == Object.keys(this.selectedFilters).includes(n)) continue;
+			for(let i in removeFilters[n]){
+				let index = this.selectedFilters[n].indexOf(removeFilters[n][i]);
+				if(0 > index) continue;
+				this.selectedFilters[n].splice(index, 1);
+			}
 		}
 	}
 
-	checkProduct(first, product){
-		let pass = true;
-		for(let n in Object.keys(this.products)){
-			let field = Object.keys(this.products)[n]
-			if(field == first) continue;
-			if(false == this.products[field].includes(product)) pass = false;
-		}
-
-		if(pass) this.filteredProducts.push(product)
+	apply(selectedFilters = this.selectedFilters){
+		this.stores.selectedFilters.setFilters(selectedFilters);
 	}
 }
 
