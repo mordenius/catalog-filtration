@@ -16,19 +16,33 @@ let catalog = new Catalog(options);
 
 console.time('FILTER_INIT');
 
-// let selected = {
-// 	BRAND: ['Timberland'],
-// 	SEASON_UA: ['Осінь-Зима 2016', 'Осінь-Зима 2015'],
-// 	GENDER_UA: ["Жіноче"],
-// 	TODAY: []
-// }
-let selected = 'female';
-catalog.filter(selected)
+let selected = {
+	BRAND: ['Braska'],
+	SEASON_UA: ['Осінь-Зима 2016', 'Осінь-Зима 2015'],
+	TODAY: []
+}
+
+let append =  {
+	BRAND: ['Ecco', 'Braska', 'Timberland'],
+	CVET_UA: ['Бузковий']
+}
+
+let detach =  {
+	BRAND: ['Braska', 'Ecco']
+}
+
+// let selected = 'female';
+catalog.filter('preset', 'female')
+	.then(getStores)
+	.then(() => catalog.filter('reset'))
+	.then(getStores)
+	.then(() => catalog.filter('all', selected))
+	.then(getStores)
+	.then(() => catalog.filter('detach', detach))
 	.then(getStores)
 	.then(() => console.timeEnd('FILTER_INIT'))
 
-
 function getStores(stores){
-	console.log(stores.availableFilters.PRICE_ACTION);
-	// console.log(stores.filterMap.TECHNOLOGY);
+	console.log(stores.productList.length);
+	console.log(stores);
 }

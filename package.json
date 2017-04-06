@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "babel-node test/index",
+    "console": "electron test/start.js",
     "compile": "babel --presets es2015,stage-0 -d lib/ src/",
     "prepublish": "npm run compile"
   },
@@ -23,7 +24,9 @@
     "babel-core": "^6.24.0",
     "babel-plugin-root-import": "^5.1.0",
     "babel-preset-es2015": "^6.24.0",
-    "babel-preset-stage-0": "^6.22.0"
+    "babel-preset-stage-0": "^6.22.0",
+    "babel-register": "^6.24.0",
+    "electron": "^1.6.2"
   },
   "dependencies": {
     "redux-store-controller": "^1.0.5"
