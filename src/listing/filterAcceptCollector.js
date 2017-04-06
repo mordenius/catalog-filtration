@@ -1,6 +1,7 @@
 class FilterAcceptCollector {
 	constructor(options){
 		this.stores = options.stores;
+		this.goods = options.goods;
 		this.filterFields = options.filterFields;
 		this.priceField = options.priceField;
 
@@ -28,17 +29,12 @@ class FilterAcceptCollector {
 	}
 
 	filterString(){
-		this.filteredProducts = this.stores.filterMap.getStore.presets[this.preset].products;
+		this.filteredProducts = (null == this.preset) ? Object.keys(this.goods) : this.stores.filterMap.getStore.presets[this.preset].products;
 		this.stores.productList.setProductList(this.filteredProducts);
 	}
 
 	filterObject(){
 		this.products = {};
-
-		// if(null != this.preset) {
-		// 	let products = this.stores.filterMap.getStore.presets[this.preset];
-		// 	this.stores.productList.setProductList(products);
-		// }else 
 		this.filteredProducts = [];
 
 		for(let field in this.selectedFilters){

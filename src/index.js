@@ -24,13 +24,16 @@ class Catalog {
 			productList: this._catalog.stores.productList.getStore,
 			availableFilters: this._catalog.stores.availableFilters.getStore,
 			filterMap: this._catalog.stores.filterMap.getStore,
+			selectedFilters: this._catalog.stores.selectedFilters.getStore,
+			catalog: this._catalog.stores.catalog.getStore
 		}
 	}
 
 	get getResult(){
 		return {
 			productList: this._catalog.stores.productList.getStore,
-			availableFilters: this._catalog.stores.availableFilters.getStore
+			availableFilters: this._catalog.stores.availableFilters.getStore,
+			selectedFilters: this._catalog.stores.selectedFilters.getStore
 		}
 	}
 

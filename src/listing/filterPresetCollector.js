@@ -38,7 +38,8 @@ class FilterPresetCollector extends FilterMapCollector{
 
 	presetAvailable(){
 		for(let n in this.presetProducts){
-			let newGoods = this.presetProducts[n].products.map((key) => (this.goods[key]))
+			let newGoods = {};
+			this.presetProducts[n].products.map((key) => newGoods[key] = this.goods[key])
 			this.presetMap.newGoods(newGoods);
 			this.presetMap.listing()
 			this.presetProducts[n].available = this.presetMap.filterList;
