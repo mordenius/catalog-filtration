@@ -56,7 +56,7 @@ class FilterAccept {
 	}
 
 	apply(selectedFilters = this.selectedFilters){
-		this.stores.selectedFilters.setFilters(selectedFilters);
+		this.stores.selectedFilters.set(selectedFilters);
 	}
 }
 

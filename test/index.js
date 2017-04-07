@@ -1,5 +1,12 @@
-import Catalog from '~/';
+import Catalog from '../src/index';
 import Goods from './out_goods.json';
+
+import StoreList from './data/storeList';
+import {StoreController} from 'redux-store-controller';
+
+let stores = new StoreController({
+   	 storeList: StoreList
+		})
 
 let options = {
 	goods: Goods,
@@ -9,12 +16,21 @@ let options = {
 	presetsRules: {
 		'female': {"GENDER_UA": ["Жіноче"], "ACCESSORY": ["N"]},
 		'male': {"GENDER_UA": ["Чоловіче"], "ACCESSORY": ["N"]} 
+	},
+	customStores:{
+		productList: stores.productList,
+		selectedFilters: stores.selectedFilters,
+		availableFilters: stores.availableFilters
 	}
 }
 
-let catalog = new Catalog(options);
+let catalog;
 
-console.time('FILTER_INIT');
+global.init = () => {
+	console.time('CATALOG_INIT');
+	catalog = new Catalog(options);
+	console.timeEnd('CATALOG_INIT')
+}
 
 let selected = {
 	BRAND: ['Braska'],
@@ -23,8 +39,7 @@ let selected = {
 }
 
 let append =  {
-	BRAND: ['Ecco', 'Braska', 'Timberland'],
-	CVET_UA: ['Бузковий']
+	BRAND: ['Ecco', 'Braska', 'Timberland']
 }
 
 let detach =  {
@@ -32,17 +47,25 @@ let detach =  {
 }
 
 // let selected = 'female';
-catalog.filter('preset', 'female')
-	.then(getStores)
-	.then(() => catalog.filter('reset'))
-	.then(getStores)
-	.then(() => catalog.filter('append', append))
-	.then(getStores)
-	.then(() => catalog.filter('detach', detach))
-	.then(getStores)
-	.then(() => console.timeEnd('FILTER_INIT'))
+// 
+global.test = () => {
+	catalog.filter('preset', 'female')
+		.then(getStores)
+		.then(() => catalog.filter('reset'))
+		.then(getStores)
+		.then(() => catalog.filter('append', append))
+		.then(getStores)
+		.then(() => catalog.filter('detach', detach))
+		.then(getStores)
+		.then(() => catalog.reset())
+		.then(getStores)
+		// .then(() => console.timeEnd('FILTER_INIT'))
+}
 
 function getStores(stores){
 	console.log(stores.productList.length);
 	console.log(stores);
 }
+
+init();
+console.log('load success');

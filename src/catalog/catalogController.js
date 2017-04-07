@@ -5,14 +5,16 @@ class CatalogController {
 		this.stores = options.stores;
 		this.goods = options.goods;
 
-		this.filterController = new FilterController(options);
-		
 		this.initProductList();
+
+		this.filterController = new FilterController(options);
 	}
 
 	initProductList(){
 		let products = Object.keys(this.goods);
-		this.stores.productList.setProductList(products);
+		this.stores.productList.set(products);
+		this.stores.selectedFilters.set({});
+		this.stores.availableFilters.set({});
 	}
 }
 

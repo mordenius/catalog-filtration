@@ -14,7 +14,7 @@ class FilterAvailable {
 		let condition = (null == preset || 0 < Object.keys(this.stores.selectedFilters.getStore).length);
 		let available = (condition) ? this.availableCommon() : this.availablePreset(preset);
 		
-		this.stores.availableFilters.setFilterList(available);
+		this.stores.availableFilters.set(available);
 
 		console.timeEnd('AVAILABLE')
 	}

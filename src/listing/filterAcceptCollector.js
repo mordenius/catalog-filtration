@@ -30,7 +30,7 @@ class FilterAcceptCollector {
 
 	filterString(){
 		this.filteredProducts = (null == this.preset) ? Object.keys(this.goods) : this.stores.filterMap.getStore.presets[this.preset].products;
-		this.stores.productList.setProductList(this.filteredProducts);
+		this.stores.productList.set(this.filteredProducts);
 	}
 
 	filterObject(){
@@ -43,7 +43,7 @@ class FilterAcceptCollector {
 		}
 
 		this.parseProductsLists();
-		this.stores.productList.setProductList(this.filteredProducts);
+		this.stores.productList.set(this.filteredProducts);
 	}
 
 	checkField(field){

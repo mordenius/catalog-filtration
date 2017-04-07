@@ -1,10 +1,10 @@
-import StoreList from '@/storeList';
-import {StoreController} from 'redux-store-controller';
+import CustomStores from './customStores';
 import CatalogController from '~/catalog/catalogController';
 
 class Catalog {
 	constructor(options){
 		this.options = options;
+		this.customStores = new CustomStores(options);
 		this.init();
 	}
 
@@ -14,9 +14,7 @@ class Catalog {
 	}
 
 	storesInit(){
-		return new StoreController({
-   	 storeList: StoreList
-		})
+		return this.customStores.getStores;
 	}
 
 	get getStores(){

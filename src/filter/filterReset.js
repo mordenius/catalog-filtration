@@ -18,7 +18,7 @@ class FilterReset {
 
 	resetFull(){
 		let products = Object.keys(this.goods);
-		this.stores.productList.setProductList(products);
+		this.stores.productList.set(products);
 	}
 }
 
