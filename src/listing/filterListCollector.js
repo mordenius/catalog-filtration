@@ -2,7 +2,7 @@ import ProductListing from './productListing';
 
 class FilterListCollector extends ProductListing {
 	constructor(options){
-		super(options.goods);
+		super(options);
 		this.filterFields = options.filterFields;
 		this.priceField = options.priceField;
 		this.filterList = {};
