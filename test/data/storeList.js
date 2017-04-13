@@ -2,16 +2,13 @@ import {StoreClass} from 'redux-store-controller';
 
 let StoreList = [
 	{
-		name: 'availableFilters',
-		store: StoreClass
+		name: 'availableFilters'
 	},
 	{
-		name: 'productList',
-		store: StoreClass
+		name: 'productList'
 	},
 	{
-		name: 'selectedFilters',
-		store: StoreClass
+		name: 'selectedFilters'
 	}
 ]
 

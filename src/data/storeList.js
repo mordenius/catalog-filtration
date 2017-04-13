@@ -9,20 +9,17 @@ let StoreList = [
 		store: CatalogControllerStore
 	},
 	{
-		name: 'availableFilters',
-		store: StoreClass
+		name: 'availableFilters'
 	},
 	{
-		name: 'productList',
-		store: StoreClass
+		name: 'productList'
 	},
 	{
 		name: 'filterMap',
 		store: FilterMapStore
 	},
 	{
-		name: 'selectedFilters',
-		store: StoreClass
+		name: 'selectedFilters'
 	}
 ]
 

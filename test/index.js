@@ -51,8 +51,6 @@ let detach =  {
 global.test = () => {
 	catalog.filter('preset', 'female')
 		.then(getStores)
-		.then(() => catalog.filter('reset'))
-		.then(getStores)
 		.then(() => catalog.filter('append', append))
 		.then(getStores)
 		.then(() => catalog.filter('detach', detach))
