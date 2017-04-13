@@ -10,6 +10,7 @@ class FilterReset {
 		let preset = this.stores.catalog.getStore.preset;
 		if(null == preset) this.resetFull();
 		else this.resetPreset(preset);
+		this.stores.selectedFilters.set({});
 	}
 
 	resetPreset(preset){

@@ -52,6 +52,8 @@ class FilterAccept {
 				if(0 > index) continue;
 				this.selectedFilters[n].splice(index, 1);
 			}
+
+			if(1 > this.selectedFilters[n].length) delete this.selectedFilters[n];
 		}
 	}
 

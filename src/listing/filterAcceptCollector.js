@@ -24,7 +24,7 @@ class FilterAcceptCollector {
 
 		this.stores.selectedFilters.subscribe(() => {
 			this.selectedFilters = this.stores.selectedFilters.getStore;
-			this.filterObject();
+			if(0 < Object.keys(this.selectedFilters).length) this.filterObject();
 		})
 	}
 
