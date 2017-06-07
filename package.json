@@ -29,6 +29,7 @@
     "electron": "^1.6.2"
   },
   "dependencies": {
+    "lodash": "^4.17.4",
     "redux-store-controller": "^1.0.5"
   }
 }
