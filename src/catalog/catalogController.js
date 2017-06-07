@@ -1,22 +1,22 @@
-import FilterController from '~/filter/filterController';
+import FilterController from "~/filter/filterController";
 
 class CatalogController {
-	constructor(options){
-		this.goods = options.goods;
+  constructor(options) {
+    this.goods = options.goods;
 
-		this.initProductList();
+    this.initProductList();
 
-		this.filterController = new FilterController(options);
-	}
+    this.filterController = new FilterController(options);
+  }
 
-	initProductList(){
-		const products = Object.keys(this.goods);
+  initProductList() {
+    const products = Object.keys(this.goods);
 
-		this.stores.productList.set(products);
+    this.stores.productList.set(products);
 
-		this.stores.selectedFilters.set({});
-		this.stores.availableFilters.set({});
-	}
+    this.stores.selectedFilters.set({});
+    this.stores.availableFilters.set({});
+  }
 }
 
 export default CatalogController;

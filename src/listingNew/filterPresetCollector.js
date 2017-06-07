@@ -1,65 +1,66 @@
 import _ from "lodash";
 
 class FilterPresetCollector {
-	constructor(options){
-		this.stores = options.stores;
-		this.presetsRules = options.presetsRules;
-		this.filterFields = options.filterFields;
+  constructor(options) {
+    this.stores = options.stores;
+    this.presetsRules = options.presetsRules;
+    this.filterFields = options.filterFields;
 
-		this.presets = {};
+    this.presets = {};
 
-		this.listing();
-	}
+    this.listing();
+  }
 
-	listing(){
-		_.map(this.presetsRules, (rules, name) => {
-			this.presets[name] = {products: [], available: {}};
-		})
-	}
+  listing() {
+    _.map(this.presetsRules, (rules, name) => {
+      this.presets[name] = { products: [], available: {} };
+    });
+  }
 
-	doMagic(){
-		_.map(this.presetsRules, (rules, name) => {
-			this.isRulePassed({
-				name: name,
-				rules: rules
-			})
-		})
-	}
+  doMagic() {
+    _.map(this.presetsRules, (rules, name) => {
+      this.isRulePassed({
+        name: name,
+        rules: rules
+      });
+    });
+  }
 
-	isRulePassed(options){
-		const map = this.stores.filterMap.getStore.map;
+  isRulePassed(options) {
+    const map = this.stores.filterMap.getStore.map;
 
-		let ruleProd = [];
-		let availableProd = {}
-		_.map(options.rules, (values, category) => {
+    let ruleProd = [];
+    let availableProd = {};
+    _.map(options.rules, (values, category) => {
+      const cat = map[category];
+      let catProd = [];
+      _.map(values, value => {
+        catProd = _.union(catProd, cat[value].products);
+        availableProd = this.getAvialableForProduct({
+          field: category,
+          value: value,
+          list: availableProd
+        });
+      });
+      ruleProd = ruleProd.length < 1
+        ? _.clone(catProd)
+        : _.intersection(ruleProd, catProd);
+    });
 
-			const cat = map[category];
-			let catProd = [];
-			_.map(values, (value) => {
-				catProd = _.union(catProd, cat[value].products);
-				availableProd = this.getAvialableForProduct({
-					field: category,
-					value: value,
-					list: availableProd
-				});
-			})
-			ruleProd = (ruleProd.length < 1) ? _.clone(catProd) : _.intersection(ruleProd, catProd);
-		})
+    this.presets[options.name].products = _.clone(ruleProd);
+    this.presets[options.name].available = _.clone(availableProd);
+  }
 
-		this.presets[options.name].products = _.clone(ruleProd);
-		this.presets[options.name].available = _.clone(availableProd);
-	}
+  getAvialableForProduct(options) {
+    const map = this.stores.filterMap.getStore.map;
+    let answer = {};
+    _.map(map[options.field][options.value].available, (values, field) => {
+      let result = _.union(values, options.list[field]);
+      answer[field] = _.clone(result);
+    });
 
-	getAvialableForProduct(options){
-		const map = this.stores.filterMap.getStore.map;
-		let answer = {}
-		_.map(map[options.field][options.value].available, (values, field) => {
-			let result = _.union(values, options.list[field]);
-			answer[field] = _.clone(result);
-		})
-
-		return answer;
-	}
+    return answer;
+  }
 }
 
 export default FilterPresetCollector;

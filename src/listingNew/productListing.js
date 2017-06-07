@@ -1,50 +1,52 @@
 import _ from "lodash";
 
-import FilterAvailableCollector from './filterAvailableCollector';
-import FilterPresetCollector from './filterPresetCollector';
+import FilterAvailableCollector from "./filterAvailableCollector";
+import FilterPresetCollector from "./filterPresetCollector";
 
 class ProductListing {
-	constructor(options){
-		this.goods = options.goods;
-		this.stores = options.stores;
-		this.filterFields = options.filterFields;
-		this.presetRules = options.presetsRules;
+  constructor(options) {
+    this.goods = options.goods;
+    this.stores = options.stores;
+    this.filterFields = options.filterFields;
+    this.presetRules = options.presetsRules;
 
-		this.availableCollector = new FilterAvailableCollector(options);
-		this.presetCollector = new FilterPresetCollector(options);
-	}
+    this.availableCollector = new FilterAvailableCollector(options);
+    this.presetCollector = new FilterPresetCollector(options);
+  }
 
-	listing(){
-		_.map(this.goods, (item, key) => {
-			this.listingItem( _.pick(item, this.filterFields), key);
-		})
+  listing() {
+    _.map(this.goods, (item, key) => {
+      this.listingItem(_.pick(item, this.filterFields), key);
+    });
 
-		this.afterListing();
-	}
+    this.afterListing();
+  }
 
-	afterListing(){
-		this.stores.availableFilters.set(this.availableCollector.available)
-		this.stores.filterMap.setFilterMap(this.availableCollector.mapCollector.map)
+  afterListing() {
+    this.stores.availableFilters.set(this.availableCollector.available);
+    this.stores.filterMap.setFilterMap(
+      this.availableCollector.mapCollector.map
+    );
 
-		this.presetCollector.presets.all = {
-			products: _.clone(this.stores.productList.getStore),
-			available: _.clone(this.availableCollector.available)
-		}
+    this.presetCollector.presets.all = {
+      products: _.clone(this.stores.productList.getStore),
+      available: _.clone(this.availableCollector.available)
+    };
 
-		this.presetCollector.doMagic();
-		this.stores.filterMap.setFilterPresets(this.presetCollector.presets)
-	}
+    this.presetCollector.doMagic();
+    this.stores.filterMap.setFilterPresets(this.presetCollector.presets);
+  }
 
-	listingItem(item, key){
-		_.map(item, (value, field) => {
-			this.availableCollector.checkAvailable({
-				key: key,
-				value: value,
-				field: field,
-				item: item
-			});
-		})
-	}
+  listingItem(item, key) {
+    _.map(item, (value, field) => {
+      this.availableCollector.checkAvailable({
+        key: key,
+        value: value,
+        field: field,
+        item: item
+      });
+    });
+  }
 }
 
 export default ProductListing;

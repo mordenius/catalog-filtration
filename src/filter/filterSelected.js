@@ -1,67 +1,77 @@
-import _ from 'lodash';
+import _ from "lodash";
 
 class FilterAccept {
-	constructor(options){
-		this.stores = options.stores;
-	}
+  constructor(options) {
+    this.stores = options.stores;
+  }
 
-	filter(selectedFilters){
-		switch(typeof selectedFilters){
-			case 'string':
-				this.stores.catalog.preset(selectedFilters);
-				this.stores.selectedFilters.set({});
-				break;
-			case 'object': this.apply(selectedFilters); break;
-			default: break;
-		}
-	}
+  filter(selectedFilters) {
+    switch (typeof selectedFilters) {
+      case "string":
+        this.stores.catalog.preset(selectedFilters);
+        this.stores.selectedFilters.set({});
+        break;
+      case "object":
+        this.apply(selectedFilters);
+        break;
+      default:
+        break;
+    }
+  }
 
-	change(type, filters){
-		switch(type){
-			case 'append': this.append(filters); break;
-			case 'detach': this.detach(filters); break;
-			default: break;
-		}
-	}
+  change(type, filters) {
+    switch (type) {
+      case "append":
+        this.append(filters);
+        break;
+      case "detach":
+        this.detach(filters);
+        break;
+      default:
+        break;
+    }
+  }
 
-	append(newFilters){
+  append(newFilters) {
+    console.time("FILTER");
 
-		console.time('FILTER');
+    const selectedFilters = this.stores.selectedFilters.getStore;
 
-		const selectedFilters = this.stores.selectedFilters.getStore;
+    _.map(newFilters, (values, category) => {
+      if (_.has(this.selectedFilters, category))
+        selectedFilters[category] = _.union(selectedFilters[category], values);
+      else selectedFilters[category] = values;
+    });
 
-		_.map(newFilters, (values, category) => {
-			if(_.has(this.selectedFilters, category)) selectedFilters[category] = _.union(selectedFilters[category], values);
-			else selectedFilters[category] = values;
-		})
+    console.timeEnd("FILTER");
 
-		console.timeEnd('FILTER');
+    this.apply(selectedFilters);
+  }
 
-		this.apply(selectedFilters);
-	}
+  detach(removeFilters) {
+    console.time("FILTER");
 
-	detach(removeFilters){
+    let selectedFilters = this.stores.selectedFilters.getStore;
 
-		console.time('FILTER');
+    _.map(removeFilters, (values, category) => {
+      if (_.has(selectedFilters, category)) {
+        _.map(values, value => {
+          selectedFilters[category] = _.without(
+            selectedFilters[category],
+            value
+          );
+        });
+      }
+    });
 
-		let selectedFilters = this.stores.selectedFilters.getStore;
+    console.timeEnd("FILTER");
 
-		_.map(removeFilters, (values, category) => {
-			if(_.has(selectedFilters, category)) {
-				_.map(values, (value) => {
-					selectedFilters[category] = _.without(selectedFilters[category], value);
-				})
-			}
-		})
+    this.apply(selectedFilters);
+  }
 
-		console.timeEnd('FILTER');
-
-		this.apply(selectedFilters);
-	}
-
-	apply(selectedFilters){
-		this.stores.selectedFilters.set(selectedFilters);
-	}
+  apply(selectedFilters) {
+    this.stores.selectedFilters.set(selectedFilters);
+  }
 }
 
 export default FilterAccept;
