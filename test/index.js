@@ -32,6 +32,10 @@ global.init = () => {
 	console.timeEnd('CATALOG_INIT')
 }
 
+global.getStores = () => {
+	console.log(catalog.getStores);
+}
+
 let selected = {
 	BRAND: ['Braska'],
 	SEASON_UA: ['Осінь-Зима 2016', 'Осінь-Зима 2015'],

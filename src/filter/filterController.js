@@ -1,4 +1,4 @@
-import FilterPresetCollector from '~/listing/filterPresetCollector';
+import ProductListing from '~/listingNew/productListing';
 import FilterAvailable from './filterAvailable';
 import FilterSelected from './filterSelected';
 import FilterReset from './filterReset';
@@ -8,7 +8,7 @@ class FilterController {
 		this.stores = options.stores;
 		this.goods = options.goods;
 		
-		this.filterPresetCollector = new FilterPresetCollector(options);
+		this.filterPresetCollector = new ProductListing(options);
 		this.filterAvailable = new FilterAvailable(options);
 		this.filterSelected = new FilterSelected(options);
 		this.filterReset = new FilterReset(Object.assign({}, options, {filterSelected: this.filterSelected}));
@@ -18,7 +18,7 @@ class FilterController {
 
 	init(){
 		this.filterPresetCollector.listing();
-		this.setStores();
+		// this.setStores();
 	}
 
 	setStores(){
