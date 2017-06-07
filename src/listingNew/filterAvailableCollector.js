@@ -15,11 +15,9 @@ class FilterAvailableCollector {
 	}
 
 	listing(){
-
 		_.forEach(this.filterFields, (item) => {
 			this.availableMask[item] = [];
 		})
-
 		this.reset();
 	}
 
@@ -30,6 +28,18 @@ class FilterAvailableCollector {
 		}
 
 		this.mapCollector.appendInProductList(options);
+		this.listingItem(options)
+	}
+
+	listingItem(options){
+		_.map(options.item, (value, field) => {
+			this.mapCollector.getAvialableForProduct({
+				value: options.value,
+				field: options.field,
+				f: field,
+				v: value
+			});
+		})
 	}
 
 	isRepeatedValue(options){

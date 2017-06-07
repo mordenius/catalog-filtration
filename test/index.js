@@ -55,18 +55,17 @@ let detach =  {
 global.test = () => {
 	catalog.filter('preset', 'female')
 		.then(getStores)
-		.then(() => catalog.filter('append', append))
+		.then(() => catalog.filter('append', selected))
 		.then(getStores)
 		.then(() => catalog.filter('detach', detach))
 		.then(getStores)
 		.then(() => catalog.reset())
-		.then(getStores)
 		// .then(() => console.timeEnd('FILTER_INIT'))
 }
 
-function getStores(stores){
-	console.log(stores.productList.length);
-	console.log(stores);
+function getStores(){
+	console.log(stores.productList.getStore.length);
+	// console.log(stores);
 }
 
 init();

@@ -4,22 +4,20 @@ class FilterPresetCollector {
 	constructor(options){
 		this.stores = options.stores;
 		this.presetsRules = options.presetsRules;
+		this.filterFields = options.filterFields;
 
 		this.presets = {};
 
 		this.listing();
-
-		this.curKey = null;
 	}
 
 	listing(){
 		_.map(this.presetsRules, (rules, name) => {
-			this.presets[name] = {products: [], available: []};
+			this.presets[name] = {products: [], available: {}};
 		})
 	}
 
-	doMagic(options){
-		// if(this.curKey != options.key) this.parseKey(options);
+	doMagic(){
 		_.map(this.presetsRules, (rules, name) => {
 			this.isRulePassed({
 				name: name,
@@ -32,27 +30,35 @@ class FilterPresetCollector {
 		const map = this.stores.filterMap.getStore.map;
 
 		let ruleProd = [];
+		let availableProd = {}
 		_.map(options.rules, (values, category) => {
 
 			const cat = map[category];
 			let catProd = [];
 			_.map(values, (value) => {
 				catProd = _.union(catProd, cat[value].products);
+				availableProd = this.getAvialableForProduct({
+					field: category,
+					value: value,
+					list: availableProd
+				});
 			})
 			ruleProd = (ruleProd.length < 1) ? _.clone(catProd) : _.intersection(ruleProd, catProd);
 		})
 
 		this.presets[options.name].products = _.clone(ruleProd);
+		this.presets[options.name].available = _.clone(availableProd);
 	}
 
-	parseKey(options){
-		if(this.isAppend) appendPresetProduct(options);
-		this.curKey = options.key;
-		this.isAppend = true;
-	}
+	getAvialableForProduct(options){
+		const map = this.stores.filterMap.getStore.map;
+		let answer = {}
+		_.map(map[options.field][options.value].available, (values, field) => {
+			let result = _.union(values, options.list[field]);
+			answer[field] = _.clone(result);
+		})
 
-	appendPresetProduct(options){
-
+		return answer;
 	}
 }
 

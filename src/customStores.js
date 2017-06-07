@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import StoreList from '@/storeList';
 import {StoreController} from 'redux-store-controller';
 
@@ -30,9 +31,7 @@ class CustomStores {
 	}
 
 	customListing(){
-		for(let n in this.stores){
-			this.setCustomStores(n);
-		}
+		_.map(this.stores, (store, key) => this.setCustomStores(key));
 	}
 
 	setCustomStores(store){

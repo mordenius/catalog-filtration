@@ -2,7 +2,7 @@ import {StoreClass} from 'redux-store-controller';
 
 class CatalogControllerStore extends StoreClass {
 	constructor(){
-		super({preset: null})
+		super({preset: 'all'})
 	}
 
 	update(state, action){

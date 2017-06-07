@@ -2,6 +2,7 @@ import _ from "lodash";
 
 class FilterMapCollector {
 	constructor(options){
+		this.goods = options.goods;
 		this.stores = options.stores;
 		this.filterFields = options.filterFields;
 
@@ -23,12 +24,24 @@ class FilterMapCollector {
 	createFieldOfCategory(options){
 		this.createCategory(options);
 		if (false === _.has(this.map[options.field], options.value)) {
-			this.map[options.field][options.value] = {products: [], available: []};
+
+			const av = {};
+			_.map(this.filterFields, (field) => {
+				av[field] = []
+			})
+
+			this.map[options.field][options.value] = {products: [], available: av};
 		}
 	}
 
 	appendInProductList(options){
 		this.map[options.field][options.value].products.push(options.key);
+		this.getAvialableForProduct(options);
+	}
+
+	getAvialableForProduct(options){
+		const result = this.map[options.field][options.value].available[options.f];
+		this.map[options.field][options.value].available[options.f] = _.union(result, [options.v]);
 	}
 }
 

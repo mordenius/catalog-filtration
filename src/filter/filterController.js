@@ -1,7 +1,7 @@
 import ProductListing from '~/listingNew/productListing';
 import FilterAvailable from './filterAvailable';
 import FilterSelected from './filterSelected';
-import FilterReset from './filterReset';
+import FilterProductList from './filterProductList';
 
 class FilterController {
 	constructor(options){
@@ -11,26 +11,19 @@ class FilterController {
 		this.filterPresetCollector = new ProductListing(options);
 		this.filterAvailable = new FilterAvailable(options);
 		this.filterSelected = new FilterSelected(options);
-		this.filterReset = new FilterReset(Object.assign({}, options, {filterSelected: this.filterSelected}));
+		this.filterProductList = new FilterProductList(options);
 		
 		this.init();
 	}
 
 	init(){
 		this.filterPresetCollector.listing();
-		// this.setStores();
-	}
-
-	setStores(){
-		this.stores.availableFilters.set(this.filterPresetCollector.filterList);
-		this.stores.filterMap.setFilterMap(this.filterPresetCollector.filterMap);
-		this.stores.filterMap.setFilterPresets(this.filterPresetCollector.presetProducts);
 	}
 
 	filter(type, selectedFilters = {}){
 		switch(type){
 			case 'reset':
-				this.filterReset.reset(); break;
+				this.reset(); break;
 			case 'append':
 			case 'detach':
 				this.filterSelected.change(type, selectedFilters); break;
@@ -40,13 +33,10 @@ class FilterController {
 			default:
 				this.filterSelected.filter(selectedFilters); break;
 		}
-		this.filterAvailable.available();		
 	}
 
 	reset(){
-		this.stores.catalog.preset(null);
-		this.filterReset.reset();
-		this.filterAvailable.available();
+		this.stores.selectedFilters.set({});
 	}
 }
 

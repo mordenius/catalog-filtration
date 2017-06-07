@@ -1,30 +1,19 @@
-import FilterAcceptCollector from '~/listing/filterAcceptCollector';
+import _ from 'lodash';
 
 class FilterAccept {
 	constructor(options){
 		this.stores = options.stores;
-		this.filterAcceptCollector = new FilterAcceptCollector(options);
-		this.selectedFilters = {};
-
-		this.subscribe();
-	}
-
-	subscribe(){
-		this.stores.selectedFilters.subscribe(() => {
-			this.selectedFilters = this.stores.selectedFilters.getStore;
-		})
 	}
 
 	filter(selectedFilters){
-		console.time('FILTER');
-
 		switch(typeof selectedFilters){
-			case 'string': this.stores.catalog.preset(selectedFilters); break;
+			case 'string':
+				this.stores.catalog.preset(selectedFilters);
+				this.stores.selectedFilters.set({});
+				break;
 			case 'object': this.apply(selectedFilters); break;
 			default: break;
 		}
-		
-		console.timeEnd('FILTER');
 	}
 
 	change(type, filters){
@@ -33,31 +22,44 @@ class FilterAccept {
 			case 'detach': this.detach(filters); break;
 			default: break;
 		}
-
-		this.apply();
 	}
 
 	append(newFilters){
-		for(let n in newFilters){
-			if(Object.keys(this.selectedFilters).includes(n)) this.selectedFilters[n] = [...new Set([...this.selectedFilters[n], ...newFilters[n]])];
-			else this.selectedFilters[n] = newFilters[n];
-		}
+
+		console.time('FILTER');
+
+		const selectedFilters = this.stores.selectedFilters.getStore;
+
+		_.map(newFilters, (values, category) => {
+			if(_.has(this.selectedFilters, category)) selectedFilters[category] = _.union(selectedFilters[category], values);
+			else selectedFilters[category] = values;
+		})
+
+		console.timeEnd('FILTER');
+
+		this.apply(selectedFilters);
 	}
 
 	detach(removeFilters){
-		for(let n in removeFilters){
-			if(false == Object.keys(this.selectedFilters).includes(n)) continue;
-			for(let i in removeFilters[n]){
-				let index = this.selectedFilters[n].indexOf(removeFilters[n][i]);
-				if(0 > index) continue;
-				this.selectedFilters[n].splice(index, 1);
-			}
 
-			if(1 > this.selectedFilters[n].length) delete this.selectedFilters[n];
-		}
+		console.time('FILTER');
+
+		let selectedFilters = this.stores.selectedFilters.getStore;
+
+		_.map(removeFilters, (values, category) => {
+			if(_.has(selectedFilters, category)) {
+				_.map(values, (value) => {
+					selectedFilters[category] = _.without(selectedFilters[category], value);
+				})
+			}
+		})
+
+		console.timeEnd('FILTER');
+
+		this.apply(selectedFilters);
 	}
 
-	apply(selectedFilters = this.selectedFilters){
+	apply(selectedFilters){
 		this.stores.selectedFilters.set(selectedFilters);
 	}
 }
