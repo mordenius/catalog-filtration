@@ -3,6 +3,7 @@ import FilterController from "~/filter/filterController";
 class CatalogController {
   constructor(options) {
     this.goods = options.goods;
+    this.stores = options.stores;
 
     this.initProductList();
 
