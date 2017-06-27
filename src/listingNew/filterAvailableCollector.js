@@ -33,6 +33,7 @@ class FilterAvailableCollector {
 
   listingItem(options) {
     _.map(options.item, (value, field) => {
+      if(value == null) return false;
       this.mapCollector.getAvialableForProduct({
         value: options.value,
         field: options.field,
