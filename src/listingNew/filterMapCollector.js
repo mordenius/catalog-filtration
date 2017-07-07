@@ -40,8 +40,11 @@ class FilterMapCollector {
 
 	getAvialableForProduct(options) {
 		let result = this.map[options.field][options.value].available[options.f];
-		if (typeof result === "undefined") result = [options.v];
-		else result.push(options.v);
+		if(options.value === options.v) _.assign(result, _.keys(this.map[options.field]));
+		else {
+			if (typeof result === "undefined") result = [options.v];
+			else result.push(options.v);
+		}
 	}
 
 	union() {
