@@ -14,10 +14,6 @@ class FilterProductList {
         this.applyFilters(selectedFilters);
       else this.applyPreset();
     });
-
-    this.stores.catalog.subscribe(() => {
-      this.applyPreset();
-    });
   }
 
   applyFilters(selectedFilters) {
