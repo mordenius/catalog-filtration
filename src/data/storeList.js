@@ -20,6 +20,9 @@ let StoreList = [
   },
   {
     name: "selectedFilters"
+  },
+  {
+    name: "rests"
   }
 ];
 

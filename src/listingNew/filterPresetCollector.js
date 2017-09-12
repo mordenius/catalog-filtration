@@ -56,6 +56,7 @@ class FilterPresetCollector {
 	getAvialableForProduct(options) {
 		const map = this.stores.filterMap.getStore.map;
 		let answer = {};
+		if(typeof map[options.field] !== 'undefined' && map[options.field][options.value] !== 'undefined')
 		_.map(map[options.field][options.value].available, (values, field) => {
 			let result = _.union(values, options.list[field]);
 			answer[field] = _.clone(result);

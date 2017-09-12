@@ -37,6 +37,7 @@ class ProductListing {
 
 		this.presetCollector.doMagic();
 		this.stores.filterMap.setFilterPresets(this.presetCollector.presets);
+		console.log(this.stores.filterMap.getStore)
 	}
 
 	listingItem(item, key) {

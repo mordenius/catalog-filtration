@@ -30,7 +30,11 @@ class FilterProductList {
       });
     });
 
-    let result = [];
+		const mapPre = this.stores.filterMap.getStore.presets;
+		const pre = this.stores.catalog.getStore.preset;
+		const preset = _.has(mapPre, pre) ? pre : null;
+
+    let result = pre == null ? [] : mapPre[preset].products;
     _.map(prod, (lists, category) => {
       let catProd = [];
       _.map(lists, list => {

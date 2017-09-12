@@ -28,7 +28,7 @@ class FilterAvailableCollector {
     }
 
     this.mapCollector.appendInProductList(options);
-    this.listingItem(options);
+    // this.listingItem(options);
   }
 
   listingItem(options) {

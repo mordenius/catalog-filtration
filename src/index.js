@@ -46,6 +46,13 @@ class Catalog {
       this._catalog.filterController.reset();
     });
   }
+
+	insertRests(options){
+    return new Promise((resolve, reject) => {
+			this._catalog.restsController.insertRests(options)
+			  .catch(reject).then(resolve);
+    });
+  }
 }
 
 export default Catalog;

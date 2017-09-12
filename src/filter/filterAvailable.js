@@ -1,11 +1,13 @@
 import _ from "lodash";
-import FilterListCollector from "~/listing/filterListCollector";
 
 class FilterAvailable {
 	constructor(options) {
 		this.stores = options.stores;
-		this.goods = options.goods;
-		this.filterListCollector = new FilterListCollector(options);
+		this.ff = options.filterFields;
+
+		this.goods = {};
+
+		_.forEach(options.goods,(val, key) => this.goods[key] = _.pick(val, this.ff));
 
 		this.subscribe();
 	}
@@ -18,15 +20,16 @@ class FilterAvailable {
 
 	available() {
 		console.time("AVAILABLE");
-
-		let preset = this.stores.catalog.getStore.preset;
-		let condition =
-			0 < Object.keys(this.stores.selectedFilters.getStore).length;
-		let available = condition
-			? this.availableCommon()
-			: this.availablePreset(preset);
-
-		this.stores.availableFilters.set(available);
+		//
+		// let preset = this.stores.catalog.getStore.preset;
+		// let condition =
+		// 	0 < Object.keys(this.stores.selectedFilters.getStore).length;
+		// let available = condition
+		// 	? this.availableCommonNew()
+		// 	: this.availablePreset(preset);
+		//
+		// this.stores.availableFilters.set(available);
+		this.stores.availableFilters.set(this.availableCommonNew());
 
 		console.timeEnd("AVAILABLE");
 	}
@@ -54,6 +57,35 @@ class FilterAvailable {
 		});
 
 		return available;
+	}
+
+	availableCommonNew() {
+		const productList = this.stores.productList.getStore;
+		const actual = this.stores.availableFilters.getStore;
+		const selectedFilters = this.stores.selectedFilters.getStore;
+		const available = {};
+
+		_.forEach(this.ff, v => available[v] = []);
+			_.forEach(this.ff, field => {
+				if(_.has(selectedFilters, field)) available[field] = _.clone(actual[field]);
+				else if (field === 'PRICE_ACTION') return;
+				else{
+					_.forEach(productList, key => {
+						if(field === 'SIZE') _.forEach(this.availableByRests({key: key}), size => {available[field].push(size)});
+						else available[field].push(this.goods[key][field]);
+					})
+				}
+			})
+
+		_.forEach(available, (val, key) => available[key] = _.uniq(val))
+
+		return available;
+	}
+
+	availableByRests(options) {
+		const rests = this.stores.rests.getStore[options.key];
+		if(typeof rests === "undefined") return;
+		return typeof rests === "undefined" ? [] : rests;
 	}
 }
 
